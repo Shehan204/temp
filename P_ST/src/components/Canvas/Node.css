@@ -1,0 +1,327 @@
+/* Node Container */
+.node-wrapper {
+  position: absolute;
+  transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  padding-right: 28px;
+  z-index: 1;
+  width: fit-content;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Base Node Styling */
+.node {
+  position: relative;
+  width: 260px; /* You can adjust this width as needed */
+  min-height: 140px; /* Set a minimum height */
+  border-radius: 16px;
+  padding: 20px;
+  cursor: grab;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-sizing: border-box;
+  user-select: none;
+  border: 3px solid;
+  background: #ffffff;
+  box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.1);
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+/* Node Types */
+.node[data-node-type="scene"] {
+  border-color: #3b82f6;
+  background: linear-gradient(145deg, #e0f2fe 0%, #bfdbfe 100%);
+}
+
+.node[data-node-type="goodending"] {
+  border-color: #10b981;
+  background: linear-gradient(145deg, #ccfbf1 0%, #a7f3d0 100%);
+  transform: rotate(-0.5deg);
+}
+
+.node[data-node-type="badending"] {
+  border-color: #ef4444;
+  background: linear-gradient(145deg, #fee2e2 0%, #fecaca 100%);
+  transform: rotate(0.5deg);
+  animation: badending-idle 3s ease-in-out infinite;
+}
+
+/* Interactive States */
+.node:hover:not(.preview) {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 12px 32px -4px rgba(0, 0, 0, 0.15);
+}
+
+.node.dragging {
+  cursor: grabbing;
+  transform: scale(1.05) translateZ(0);
+  opacity: 0.95;
+  z-index: 100;
+}
+
+/* Preview State */
+.node.preview {
+  opacity: 0.7;
+  pointer-events: none;
+  animation: preview-pulse 1.5s ease-in-out infinite;
+  filter: brightness(1.1);
+}
+
+@keyframes preview-pulse {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-2px) scale(1.02); }
+}
+
+/* Header Controls */
+.node-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.node-type-badge {
+  position: absolute;
+  top: -12px;
+  left: 20px;
+  font-weight: 800;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 6px 12px;
+  border-radius: 20px;
+  color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.node[data-node-type="scene"] .node-type-badge { background: #3b82f6; }
+.node[data-node-type="goodending"] .node-type-badge { background: #10b981; }
+.node[data-node-type="badending"] .node-type-badge { background: #ef4444; }
+
+/* Delete Button */
+.delete-node {
+  background: rgba(255, 255, 255, 0.95);
+  border: 2px solid;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.node[data-node-type="scene"] .delete-node { border-color: #3b82f6; color: #3b82f6; }
+.node[data-node-type="goodending"] .delete-node { border-color: #10b981; color: #10b981; }
+.node[data-node-type="badending"] .delete-node { border-color: #ef4444; color: #ef4444; }
+
+.delete-node:hover {
+  transform: scale(1.12);
+  background: white;
+}
+
+/* Content Styling */
+.node-content {
+  position: relative;
+  z-index: 2;
+}
+
+.node-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 0 0 12px 0;
+  padding: 8px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.6);
+  cursor: text;
+  transition: background 0.2s ease;
+}
+
+.node-title:hover {
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.node-title-input {
+  width: 100%;
+  font-size: 1.3rem;
+  font-weight: 700;
+  padding: 8px;
+  border: 2px solid #94a3b8;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.node-description {
+  color: #374151;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  padding: 12px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.6);
+  min-height: 40px; /* Set a minimum height */
+  cursor: text;
+  transition: background 0.2s ease;
+  white-space: normal; /* Allow text to wrap */
+  max-height: 120px; /* Set a maximum height */
+  overflow-y: auto; /* Always show vertical scrollbar when content exceeds max-height */
+  overflow-x: hidden; /* Hide horizontal overflow */
+}
+
+.node-description::-webkit-scrollbar {
+  width: 8px; /* Width of the scrollbar */
+}
+
+.node-description::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1); /* Track color */
+  border-radius: 4px;
+}
+
+.node-description::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.3); /* Thumb color */
+  border-radius: 4px;
+}
+
+.node-description::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.5); /* Thumb color on hover */
+}
+
+.node-description:hover {
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.node-description-input {
+  width: 100%;
+  min-height: 40px; /* Set a minimum height */
+  padding: 12px;
+  border: 2px solid #94a3b8;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  resize: vertical; /* Allow vertical resizing */
+  background: rgba(255, 255, 255, 0.9);
+}
+
+/* Connection Points */
+.connection-point {
+  position: absolute;
+  right: -14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  cursor: crosshair;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+}
+
+.connection-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  animation: connection-pulse 1.5s ease-in-out infinite;
+  border: 2px solid white;
+}
+
+.node[data-node-type="scene"] .connection-dot { background: #3b82f6; }
+.node[data-node-type="goodending"] .connection-dot { background: #10b981; }
+.node[data-node-type="badending"] .connection-dot { background: #ef4444; }
+
+@keyframes connection-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+
+/* Performance Optimizations */
+.node * {
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Mobile Optimizations */
+@media (max-width: 768px) {
+  .node {
+    width: 220px;
+    min-height: 120px;
+    padding: 16px;
+  }
+  
+  .node-title {
+    font-size: 1.1rem;
+  }
+  
+  .connection-point {
+    right: -10px;
+    width: 30px;
+    height: 30px;
+  }
+  
+  .connection-dot {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.node[data-node-type="home"] {
+  border-color: #f59e0b;
+  background: linear-gradient(145deg, #fef3c7 0%, #fde68a 100%);
+  transform: rotate(0.5deg);
+}
+
+.node[data-node-type="home"] .node-type-badge { background: #f59e0b; }
+.node[data-node-type="home"] .delete-node { border-color: #f59e0b; color: #f59e0b; }
+.node[data-node-type="home"] .connection-dot { background: #f59e0b; }
+
+/* Add Scene Nodes: Now have a pulsing glow effect to draw attention */
+.node[data-node-type="scene"] {
+  animation: scene-glow 1.5s ease-in-out infinite;
+}
+
+@keyframes scene-glow {
+  0%, 100% { box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.1), 0 0 20px rgba(59, 130, 246, 0.6); }
+  50% { box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.1), 0 0 25px rgba(59, 130, 246, 1); }
+}
+
+/* Good Ending Nodes: Now have a soft glow and floating animation to give a "heavenly" feel */
+.node[data-node-type="goodending"] {
+  animation: goodending-float 3s ease-in-out infinite;
+}
+
+@keyframes goodending-float {
+  0%, 100% { transform: rotate(-0.5deg) translateY(0); }
+  50% { transform: rotate(-0.5deg) translateY(-4px); }
+}
+
+/* Bad Ending Nodes: Add shaking effect */
+@keyframes badending-idle {
+  0%, 100% {
+    transform: rotate(0.5deg) perspective(200px);
+  }
+  25% {
+    transform: rotate(0.7deg) perspective(200px) rotateZ(0.8deg);
+  }
+  50% {
+    transform: rotate(0.5deg) perspective(200px) rotateZ(-0.7deg);
+  }
+  75% {
+    transform: rotate(0.6deg) perspective(200px) rotateZ(0.7deg);
+  }
+}
+
+.node[data-node-type="badending"] {
+  animation: badending-idle 8s ease-in-out infinite;
+  transform-origin: center 70%;
+}
+
+.node[data-node-type="badending"]:hover {
+  animation: badending-shake 0.5s ease-in-out infinite;
+}
+
+

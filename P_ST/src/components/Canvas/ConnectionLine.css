@@ -1,0 +1,34 @@
+.connection-group:hover line {
+  stroke-width: 3px;
+  filter: brightness(1.1);
+  transition: all 0.2s ease;
+}
+
+.temporary-connection {
+  stroke-dasharray: 4 8;
+  animation: temp-flow 0.5s linear infinite;
+  stroke-linecap: round;
+}
+
+.permanent-connection {
+  stroke-dasharray: 8 16;
+  animation: connection-flow 0.8s linear infinite;
+  stroke-linecap: round;
+}
+
+@keyframes connection-flow {
+  0% { stroke-dashoffset: 24; }
+  100% { stroke-dashoffset: -24; }
+}
+
+@keyframes temp-flow {
+  0% { stroke-dashoffset: 12; }
+  100% { stroke-dashoffset: -12; }
+}
+
+/* Performance optimizations */
+.connections-layer * {
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  shape-rendering: geometricPrecision;
+}

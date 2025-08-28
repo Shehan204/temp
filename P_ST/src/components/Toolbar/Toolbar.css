@@ -1,0 +1,380 @@
+/* Toolbar Container */
+.toolbar-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: rgba(248, 250, 252, 0); /* Fully transparent background */
+  z-index: 1000;
+  padding: 0.5rem 1rem;
+  /*backdrop-filter: blur(8px);*/
+ /* box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); */
+  border-bottom: 1px solid rgba(203, 213, 225, 0.3); /* Optional: keeps the border */
+}
+
+/* Main Toolbar Layout */
+.toolbar {
+  display: flex;
+  gap: 0.8rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0.5rem; /* This padding can be adjusted as needed */
+  background: rgba(0, 0, 0, 0); /* Fully transparent background */
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 #f1f5f9;
+}
+
+/* Base Button Styles */
+.toolbar-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1.4rem;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.85); /* Keep buttons solid */
+  border: 1px solid rgba(203, 213, 225, 0.3);
+  color: #1e293b;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transform: translateY(0);
+}
+
+/* Button Hover/Active States */
+.toolbar-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  filter: brightness(1.05);
+}
+
+.toolbar-btn:active {
+  transform: translateY(1px);
+  filter: brightness(0.95);
+}
+
+/* Button Type Variations */
+.toolbar-btn.scene-btn {
+  background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+.toolbar-btn.good-ending-btn {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+}
+
+.toolbar-btn.bad-ending-btn {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+}
+
+.toolbar-btn.save-btn {
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+  color: white;
+}
+
+.toolbar-btn.load-btn {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: white;
+}
+
+/* Placing State Animation */
+.toolbar-btn.placing {
+  animation: placing-glow 1.5s ease-in-out infinite;
+  position: relative;
+  overflow: visible;
+}
+
+@keyframes placing-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4); }
+  50% { box-shadow: 0 0 0 6px rgba(99, 102, 241, 0); }
+}
+
+/* Divider Between Sections */
+.toolbar-divider {
+  width: 1px;
+  background: rgba(203, 213, 225, 0.5);
+  margin: 0 0.5rem;
+  align-self: stretch;
+}
+
+/* Placement Status Indicator */
+.placement-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  margin-left: auto;
+  background: rgba(255, 255, 255, 0.9);
+ border-radius: 8px;
+  font-size: 0.9rem;
+  color: #475569;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.placement-hint {
+  font-size: 0.8rem;
+  color: #64748b;
+  white-space: nowrap;
+}
+
+/* Scrollbar Styling */
+.toolbar::-webkit-scrollbar {
+  height: 6px;
+}
+
+.toolbar::-webkit-scrollbar-track {
+  background: rgba(241, 245, 249, 0.5);
+  border-radius: 4px;
+}
+
+.toolbar::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+.toolbar::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  .toolbar-container {
+    padding: 0.5rem;
+  }
+  
+  .toolbar {
+    gap: 0.6rem;
+    padding: 0.5rem 0;
+  }
+  
+  .toolbar-btn {
+    padding: 0.7rem 1rem;
+    font-size: 0.9rem;
+    border-radius: 8px;
+  }
+  
+  .placement-status {
+    display: none;
+  }
+}
+
+/* Button Icon Animations */
+.toolbar-btn .button-icon {
+  transition: transform 0.2s ease;
+}
+
+.toolbar-btn:hover .button-icon {
+  transform: scale(1.1);
+}
+
+/* Loading State Animation */
+.toolbar-btn.loading {
+  position: relative;
+  color: transparent;
+  pointer-events: none;
+}
+
+.toolbar-btn.loading::after {
+  content: "";
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border: 2px solid white;
+  border-radius: 50%;
+  border-top-color: transparent;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Hidden File Input */
+.toolbar input[type="file"] {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+/* Icon Mask Styles */
+.toolbar-btn::after {
+  content: '';
+  display: inline-block;
+  width: 1.2em;
+  height: 1.2em;
+  background: rgba(255,255,255,0.2);
+  mask-size: contain;
+  mask-position: center;
+  mask-repeat: no-repeat;
+  transition: transform 0.3s ease;
+}
+
+.scene-btn::after {
+  mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>');
+}
+
+.good-ending-btn::after {
+  mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>');
+}
+
+.bad-ending-btn::after {
+  mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>');
+}
+
+.save-btn::after {
+  mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M17 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm -5 0H5V5h10v4z"/></svg>');
+}
+
+.load-btn::after {
+  mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>');
+}
+
+.toolbar-btn:hover::after {
+  transform: scale(1.1) rotate(10deg);
+} 
+
+.toolbar-btn.home-btn {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: white;
+}
+
+.toolbar-btn.firebase-btn {
+  background: linear-gradient(135deg, #FFA000 0%, #FF6F00 100%);
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.toolbar-btn.firebase-btn:hover::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0) 25%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0) 75%
+  );
+  animation: fire-glow 2s infinite linear;
+}
+
+@keyframes fire-glow {
+  0% { transform: translateX(-50%) translateY(-50%) rotate(45deg); }
+  100% { transform: translateX(50%) translateY(50%) rotate(45deg); }
+}
+
+/* Upload Status Bar */
+.upload-status-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 30px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  display: flex;
+  align-items: center;
+  z-index: 2000;
+}
+
+.upload-progress {
+  height: 100%;
+  background: #3b82f6;
+  transition: width 0.3s ease;
+}
+
+.upload-message {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.9rem;
+}
+
+/* Firebase Load Modal */
+.firebase-load-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 3000;
+}
+
+.modal-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 600px;
+  max-width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.close-modal {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.project-list {
+  margin-top: 1rem;
+}
+
+.project-item {
+  padding: 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.project-item:hover {
+  background: #f8fafc;
+  transform: translateX(5px);
+}
+
+.project-name {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.project-date {
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+.loading-projects {
+  text-align: center;
+  padding: 2rem;
+  color: #64748b;
+}
+
+/* New button style */
+.toolbar-btn.firebase-load-btn {
+  background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+  color: white;
+}

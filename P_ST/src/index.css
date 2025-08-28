@@ -1,0 +1,285 @@
+/* src/index.css */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+  overflow: hidden;
+}
+
+.app-container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Toolbar Styles */
+.toolbar {
+  padding: 1rem;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  display: flex;
+  gap: 0.75rem;
+  z-index: 100;
+}
+
+/* Canvas Container */
+.canvas-container {
+  flex: 1;
+  position: relative;
+  background: #f8f9fa;
+  overflow: auto;
+}
+
+.connections-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* Node Styles */
+.node {
+  position: absolute;
+  min-width: 240px;
+  background: white;
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  cursor: grab;
+  user-select: none;
+  transition: box-shadow 0.2s ease;
+  z-index: 10;
+}
+
+.node:active {
+  cursor: grabbing;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
+
+.node-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #eee;
+}
+
+.node-type {
+  font-weight: 600;
+  color: #2c3e50;
+  text-transform: capitalize;
+}
+
+.add-connection {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+
+.add-connection:hover {
+  background: #f0f0f0;
+}
+
+.node-description {
+  font-size: 0.9rem;
+  color: #666;
+  line-height: 1.5;
+  margin: 0.75rem 0;
+  min-height: 60px;
+}
+
+/* Connection Points */
+.connection-points {
+  position: absolute;
+  display: flex;
+  gap: 0.5rem;
+  top: -18px;
+  right: -18px;
+  z-index: 20;
+}
+
+.connection-point {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #2196F3;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: transform 0.2s ease;
+}
+
+.connection-point:hover {
+  transform: scale(1.1);
+}
+
+/* Existing Connections */
+.existing-connections {
+  margin-top: 1rem;
+  border-top: 1px solid #eee;
+  padding-top: 0.75rem;
+}
+
+.connection-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: #666;
+  padding: 0.25rem 0;
+}
+
+/* Node Type Colors */
+.node.Scene {
+  background: #e3f2fd;
+  border: 2px solid #64b5f6;
+}
+
+.node.GoodEnding {
+  background: #e8f5e9;
+  border: 2px solid #81c784;
+}
+
+.node.BadEnding {
+  background: #ffebee;
+  border: 2px solid #e57373;
+}
+
+.node.DeathEnding {
+  background: #f3e5f5;
+  border: 2px solid #ba68c8;
+}
+
+/* Connection Lines */
+.connection-line {
+  position: absolute;
+  pointer-events: none;
+  stroke-width: 2px;
+}
+
+.connection-line line {
+  stroke: #666;
+  stroke-width: 2;
+  marker-end: url(#arrowhead);
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  position: relative;
+}
+
+.close-button {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.25rem;
+}
+
+/* Editor Styles */
+.node-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.node-editor textarea {
+  width: 100%;
+  min-height: 150px;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  resize: vertical;
+  font-family: inherit;
+}
+
+/* Button Styles */
+.styled-button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  background: #2196F3;
+  color: white;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+  font-size: 0.9rem;
+}
+
+.styled-button:hover {
+  opacity: 0.9;
+}
+
+/* Arrowhead Marker */
+marker#arrowhead {
+  fill: #666;
+}
+
+.connection-point {
+  position: absolute;
+  right: -15px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid #666;
+  cursor: crosshair;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.connection-point:hover {
+  background: #666;
+  color: white;
+}
+
+.existing-connection {
+  position: absolute;
+  right: -30px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+  font-size: 12px;
+}
